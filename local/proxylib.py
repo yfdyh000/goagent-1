@@ -151,7 +151,7 @@ class CertUtil(object):
         key = OpenSSL.crypto.PKey()
         key.generate_key(OpenSSL.crypto.TYPE_RSA, 2048)
         ca = OpenSSL.crypto.X509()
-        ca.set_serial_number(0)
+        ca.set_serial_number(int(time.time()*1000))
         ca.set_version(2)
         subj = ca.get_subject()
         subj.countryName = 'CN'
@@ -210,10 +210,7 @@ class CertUtil(object):
 
         cert = OpenSSL.crypto.X509()
         cert.set_version(2)
-        try:
-            cert.set_serial_number(int(hashlib.md5(commonname.encode('utf-8')).hexdigest(), 16))
-        except OpenSSL.SSL.Error:
-            cert.set_serial_number(int(time.time()*1000))
+        cert.set_serial_number(int(time.time()*1000))
         cert.gmtime_adj_notBefore(0)
         cert.gmtime_adj_notAfter(60 * 60 * 24 * 3652)
         cert.set_issuer(ca.get_subject())
