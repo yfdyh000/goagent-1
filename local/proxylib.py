@@ -154,7 +154,7 @@ class CertUtil(object):
         key = OpenSSL.crypto.PKey()
         key.generate_key(OpenSSL.crypto.TYPE_RSA, 2048)
         ca = OpenSSL.crypto.X509()
-        ca.set_serial_number(0)
+        ca.set_serial_number(int(time.time()*1000))
         ca.set_version(2)
         subj = ca.get_subject()
         subj.countryName = 'CN'
